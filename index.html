@@ -538,73 +538,82 @@
         </div>
     </div>
 
-    <script>
-        function animateValue(id, start, end, duration, isCurrency = true) {
-            let obj = document.getElementById(id);
-            let range = end - start;
-            let startTime = new Date().getTime();
-            let endTime = startTime + duration;
-            let timer;
+   <script>
+    function animateValue(id, start, end, duration) {
+        let obj = document.getElementById(id);
+        let range = end - start;
+        let startTime = performance.now();
+        let animationFrame;
 
-            function run() {
-                let now = new Date().getTime();
-                let remaining = Math.max((endTime - now) / duration, 0);
-                let value = Math.round(end - (remaining * range));
-                
-                if (isCurrency) {
-                    obj.innerHTML = "$" + Math.abs(value).toLocaleString();
-                    if (value < 0 && id !== 'netProfit') obj.innerHTML = "-$" + Math.abs(value).toLocaleString();
-                } else {
-                    obj.innerHTML = value;
-                }
-                
-                if (value == end) clearInterval(timer);
-            }
-            timer = setInterval(run, 16); // ~60fps
-            run();
-        }
-
-        function calculateProfit() {
-            const revenue = parseFloat(document.getElementById('revenue').value) || 0;
-            const foodPct = parseFloat(document.getElementById('foodCost').value) || 0;
-            const events = parseFloat(document.getElementById('events').value) || 0;
-
-            if (revenue === 0) return;
-
-            const foodCost = revenue * (foodPct / 100);
-            const grossProfit = revenue - foodCost;
-            const overhead = revenue * 0.30; 
-            const netProfit = grossProfit - overhead;
-
-            const leakWaste = foodCost * 0.12;
-            const leakLabor = revenue * 0.08;
-            const leakEquip = revenue * 0.04;
-            const totalLeak = leakWaste + leakLabor + leakEquip;
-
-            // Reveal Card
-            document.getElementById('resultsCard').classList.add('visible');
-
-            // Animate Numbers (1.5s duration)
-            animateValue('resRevenue', 0, revenue, 1500);
-            document.getElementById('resFoodPct').innerText = foodPct;
-            animateValue('resFoodCost', 0, foodCost, 1500);
-            animateValue('resGrossProfit', 0, grossProfit, 1500);
-            animateValue('resOverhead', 0, overhead, 1500);
-            animateValue('netProfit', 0, netProfit, 1500);
-
-            animateValue('leakWaste', 0, leakWaste, 1500);
-            animateValue('leakLabor', 0, leakLabor, 1500);
-            animateValue('leakEquip', 0, leakEquip, 1500);
-            animateValue('leakTotal', 0, totalLeak, 1500);
-
-            // Reveal Leak Section
-            document.getElementById('leakSection').style.display = 'block';
+        function animate(currentTime) {
+            let elapsedTime = currentTime - startTime;
+            let progress = Math.min(elapsedTime / duration, 1); // Clamp between 0 and 1
             
-            // Smooth scroll to results on mobile
-            if (window.innerWidth <= 900) {
-                document.getElementById('resultsCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Easing function for smooth deceleration
+            let easeOut = 1 - Math.pow(1 - progress, 3);
+            
+            let currentValue = start + (range * easeOut);
+            
+            // Format as currency
+            obj.innerHTML = "$" + Math.round(currentValue).toLocaleString();
+            
+            if (progress < 1) {
+                animationFrame = requestAnimationFrame(animate);
+            } else {
+                // Ensure final value is exact
+                obj.innerHTML = "$" + Math.round(end).toLocaleString();
             }
         }
-    </script>
+        
+        animationFrame = requestAnimationFrame(animate);
+    }
+
+    function calculateProfit() {
+        const revenue = parseFloat(document.getElementById('revenue').value) || 0;
+        const foodPct = parseFloat(document.getElementById('foodCost').value) || 0;
+        const events = parseFloat(document.getElementById('events').value) || 0;
+
+        if (revenue === 0) return;
+
+        const foodCost = revenue * (foodPct / 100);
+        const grossProfit = revenue - foodCost;
+        const overhead = revenue * 0.30; 
+        const netProfit = grossProfit - overhead;
+
+        const leakWaste = foodCost * 0.12;
+        const leakLabor = revenue * 0.08;
+        const leakEquip = revenue * 0.04;
+        const totalLeak = leakWaste + leakLabor + leakEquip;
+
+        // Reveal Card
+        document.getElementById('resultsCard').classList.add('visible');
+
+        // Animate Numbers (1.2s duration for snappier feel)
+        animateValue('resRevenue', 0, revenue, 1200);
+        document.getElementById('resFoodPct').innerText = foodPct;
+        animateValue('resFoodCost', 0, foodCost, 1200);
+        animateValue('resGrossProfit', 0, grossProfit, 1200);
+        animateValue('resOverhead', 0, overhead, 1200);
+        animateValue('netProfit', 0, netProfit, 1200);
+
+        // Animate Leak Values
+        setTimeout(() => {
+            animateValue('leakWaste', 0, leakWaste, 1000);
+            animateValue('leakLabor', 0, leakLabor, 1000);
+            animateValue('leakEquip', 0, leakEquip, 1000);
+            animateValue('leakTotal', 0, totalLeak, 1000);
+        }, 400);
+
+        // Reveal Leak Section
+        document.getElementById('leakSection').style.display = 'block';
+        
+        // Smooth scroll to results on mobile
+        if (window.innerWidth <= 900) {
+            setTimeout(() => {
+                document.getElementById('resultsCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+    }
+</script>
 </body>
 </html>
