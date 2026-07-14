@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catering Profit & Loss Calculator | Arken Templates</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #FDFBF7;
+            --text-charcoal: #222222;
+            --text-muted: #666666;
+            --accent-gold: #B59B6E;
+            --accent-gold-hover: #9e865a;
+            --dark-green: #1C2820;
+            --card-bg: #FFFFFF;
+            --border-color: #E5E0D8;
+            --font-heading: 'Cormorant Garamond', serif;
+            --font-ui: 'Manrope', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-ui);
+            background-color: var(--bg-color);
+            color: var(--text-charcoal);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            /* Subtle Paper Texture (3% opacity) */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        /* Header */
+        header { text-align: center; margin-bottom: 5rem; }
+        
+        .brand-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .arken-logo {
+            width: 36px;
+            height: 36px;
+            background: var(--dark-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-gold);
+            font-weight: 700;
+            font-size: 1.1rem;
+            font-family: var(--font-heading);
+        }
+        .brand-name {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            color: var(--text-charcoal);
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+        
+        .subtitle-top {
+            font-size: 0.8rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        h1 {
+            font-family: var(--font-heading);
+            font-size: 4.5rem;
+            font-weight: 500;
+            color: var(--text-charcoal);
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+        }
+        .header-desc {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 500px;
+            margin: 0 auto;
+            font-weight: 400;
+        }
+
+        /* Main Grid */
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 6rem;
+            align-items: start;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 3.5rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.03);
+        }
+
+        .card-title {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--text-charcoal);
+            margin-bottom: 2.5rem;
+            position: relative;
+            font-weight: 600;
+        }
+        .card-title::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 2px;
+            background: var(--accent-gold);
+            margin-top: 0.8rem;
+        }
+
+        /* Inputs */
+        .input-group { margin-bottom: 2.5rem; }
+        .input-label {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            color: var(--text-charcoal);
+        }
+        .step-number {
+            background: transparent;
+            color: var(--accent-gold);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1px solid var(--accent-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .input-wrapper { position: relative; }
+        input[type="number"] {
+            width: 100%;
+            padding: 20px 22px; /* Luxurious padding */
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-family: var(--font-ui);
+            font-size: 1.05rem;
+            color: var(--text-charcoal);
+            background: #FAFAF8;
+            transition: all 0.3s ease;
+        }
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(181, 155, 110, 0.08);
+        }
+        .input-suffix {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+        .input-hint {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.6rem;
+        }
+
+        .btn-calculate {
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--accent-gold);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: var(--font-ui);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            margin-top: 1rem;
+            letter-spacing: 0.02em;
+        }
+        .btn-calculate:hover { 
+            background: var(--accent-gold-hover); 
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(181, 155, 110, 0.3);
+        }
+        
+        .privacy-note {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        /* Results */
+        .results-card {
+            background: var(--dark-green);
+            color: white;
+            border: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .results-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .results-card .card-title { color: white; }
+        .results-card .card-title::after { background: var(--accent-gold); }
+        
+        .big-profit {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .big-profit-label {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.05em;
+        }
+        .big-profit-value {
+            font-family: var(--font-heading);
+            font-size: 5rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+            line-height: 1;
+        }
+
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            font-size: 1.05rem;
+        }
+        .breakdown-row:last-child { border-bottom: none; }
+        .breakdown-label { color: rgba(255,255,255,0.7); }
+        .breakdown-value { font-weight: 600; color: white; }
+        .breakdown-value.negative { color: #ff8a8a; }
+
+        .tip-box {
+            background: rgba(255,255,255,0.04);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2.5rem;
+            display: flex;
+            gap: 1.2rem;
+            align-items: flex-start;
+        }
+        .tip-icon { color: var(--accent-gold); flex-shrink: 0; margin-top: 2px;}
+        .tip-text { font-size: 0.95rem; color: rgba(255,255,255,0.8); line-height: 1.5; }
+
+        /* Profit Leak Section */
+        .leak-section {
+            display: none;
+            margin-top: 2.5rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid rgba(255,255,255,0.15);
+            animation: fadeIn 0.6s ease;
+        }
+        .leak-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        .leak-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+            color: rgba(255,255,255,0.7);
+        }
+        .leak-total {
+            font-weight: 700;
+            color: white;
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px dashed rgba(255,255,255,0.2);
+            display: flex;
+            justify-content: space-between;
+        }
+        .cta-button {
+            display: block;
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--accent-gold);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 12px;
+            margin-top: 2rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            font-size: 1.1rem;
+            letter-spacing: 0.02em;
+        }
+        .cta-button:hover { 
+            background: var(--accent-gold-hover); 
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(181, 155, 110, 0.3);
+        }
+
+        /* Bottom Features */
+        .features-section { text-align: center; }
+        .features-title {
+            font-size: 0.8rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            font-weight: 600;
+            margin-bottom: 4rem;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4rem;
+        }
+        .feature-icon {
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: center;
+        }
+        .feature-title {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            color: var(--text-charcoal);
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+        .feature-desc {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        
+        /* Footer Branding */
+        .footer-branding {
+            margin-top: 6rem;
+            text-align: center;
+            padding-top: 3rem;
+            border-top: 1px solid var(--border-color);
+        }
+        .footer-branding-text {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .calculator-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .features-grid { grid-template-columns: 1fr; gap: 3rem; }
+            h1 { font-size: 3.5rem; }
+            .card { padding: 2.5rem; }
+            .container { padding: 3rem 1.5rem; }
+        }
+        @media (max-width: 600px) {
+            h1 { font-size: 2.8rem; }
+            .big-profit-value { font-size: 3.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="brand-header">
+                <div class="arken-logo">A</div>
+                <div class="brand-name">Arken Templates</div>
+            </div>
+            
+            <div class="subtitle-top">Catering Business</div>
+            <h1>Profit & Loss Calculator</h1>
+            <p class="header-desc">Get a clear picture of your profitability and uncover hidden leaks in your catering margins.</p>
+        </header>
+
+        <div class="calculator-grid">
+            <!-- Input Card -->
+            <div class="card">
+                <h2 class="card-title">Your Business Details</h2>
+                
+                <div class="input-group">
+                    <div class="input-label"><span class="step-number">1</span> What is your average monthly catering revenue?</div>
+                    <div class="input-wrapper">
+                        <input type="number" id="revenue" placeholder="10000">
+                        <span class="input-suffix">$</span>
+                    </div>
+                    <div class="input-hint">e.g., 10,000</div>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-label"><span class="step-number">2</span> What do you estimate your food cost percentage to be?</div>
+                    <div class="input-wrapper">
+                        <input type="number" id="foodCost" placeholder="35">
+                        <span class="input-suffix">%</span>
+                    </div>
+                    <div class="input-hint">e.g., 35</div>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-label"><span class="step-number">3</span> How many events do you cater per month?</div>
+                    <div class="input-wrapper">
+                        <input type="number" id="events" placeholder="4">
+                    </div>
+                    <div class="input-hint">e.g., 4</div>
+                </div>
+
+                <button class="btn-calculate" onclick="calculateProfit()">
+                    Calculate Profit 
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </button>
+                <div class="privacy-note">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    Your data is private and never stored.
+                </div>
+            </div>
+
+            <!-- Results Card -->
+            <div class="card results-card" id="resultsCard">
+                <h2 class="card-title">Your Estimated Monthly Profit</h2>
+                
+                <div class="big-profit">
+                    <div class="big-profit-label">Net Profit</div>
+                    <div class="big-profit-value" id="netProfit">$0</div>
+                </div>
+
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Average Monthly Revenue</span>
+                    <span class="breakdown-value" id="resRevenue">$0</span>
+                </div>
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Food Cost (<span id="resFoodPct">0</span>%)</span>
+                    <span class="breakdown-value negative" id="resFoodCost">-$0</span>
+                </div>
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Gross Profit</span>
+                    <span class="breakdown-value" id="resGrossProfit">$0</span>
+                </div>
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Estimated Labor & Overhead (30%)</span>
+                    <span class="breakdown-value negative" id="resOverhead">-$0</span>
+                </div>
+
+                <!-- Hidden Leak Section -->
+                <div class="leak-section" id="leakSection">
+                    <div class="leak-title">⚠️ Hidden Profit Leaks Detected</div>
+                    <div class="leak-item"><span>Yield & Prep Waste (12% of food cost)</span><span id="leakWaste">-$0</span></div>
+                    <div class="leak-item"><span>Unbillable Labor (8% of revenue)</span><span id="leakLabor">-$0</span></div>
+                    <div class="leak-item"><span>Equipment/Rental Overlap (4% of revenue)</span><span id="leakEquip">-$0</span></div>
+                    <div class="leak-total">Total Monthly Leak: <span id="leakTotal" style="color: #ff8a8a;">-$0</span></div>
+                    
+                    <p style="font-size: 0.95rem; margin-top: 1.5rem; color: rgba(255,255,255,0.7); line-height: 1.6;">You cannot fix this by just raising prices. You need to restructure how you cost every dish.</p>
+                    
+                    <!-- REPLACE THE # BELOW WITH YOUR PAYHIP LINK -->
+                    <a href="#" class="cta-button">Get the OS and Stop the Leak - $149</a>
+                </div>
+
+                <div class="tip-box">
+                    <div class="tip-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2v1M12 7v5M12 13h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"></path></svg>
+                    </div>
+                    <div class="tip-text">Aim for a food cost between 28-35% for optimal profitability. Hidden leaks often push this much higher.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-section">
+            <div class="features-title">Build a More Profitable Catering Business</div>
+            <div class="features-grid">
+                <div>
+                    <div class="feature-icon">
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+                    </div>
+                    <h3 class="feature-title">Know Your Numbers</h3>
+                    <p class="feature-desc">Understanding your margins helps you price with confidence and grow sustainably.</p>
+                </div>
+                <div>
+                    <div class="feature-icon">
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z"></path><line x1="6" y1="17" x2="18" y2="17"></line></svg>
+                    </div>
+                    <h3 class="feature-title">Control Your Costs</h3>
+                    <p class="feature-desc">Monitor food costs and operational expenses to maximize profit on every event.</p>
+                </div>
+                <div>
+                    <div class="feature-icon">
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
+                    </div>
+                    <h3 class="feature-title">Scale With Clarity</h3>
+                    <p class="feature-desc">Use data-driven insights to make smarter decisions and scale your business.</p>
+                </div>
+            </div>
+            
+            <div class="footer-branding">
+                <div class="footer-branding-text">Built for caterers. Designed for growth.</div>
+                <div class="brand-header" style="margin-top: 1.5rem;">
+                    <div class="arken-logo" style="width: 32px; height: 32px; font-size: 1rem;">A</div>
+                    <div class="brand-name" style="font-size: 1.2rem;">Arken Templates</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function animateValue(id, start, end, duration, isCurrency = true) {
+            let obj = document.getElementById(id);
+            let range = end - start;
+            let startTime = new Date().getTime();
+            let endTime = startTime + duration;
+            let timer;
+
+            function run() {
+                let now = new Date().getTime();
+                let remaining = Math.max((endTime - now) / duration, 0);
+                let value = Math.round(end - (remaining * range));
+                
+                if (isCurrency) {
+                    obj.innerHTML = "$" + Math.abs(value).toLocaleString();
+                    if (value < 0 && id !== 'netProfit') obj.innerHTML = "-$" + Math.abs(value).toLocaleString();
+                } else {
+                    obj.innerHTML = value;
+                }
+                
+                if (value == end) clearInterval(timer);
+            }
+            timer = setInterval(run, 16); // ~60fps
+            run();
+        }
+
+        function calculateProfit() {
+            const revenue = parseFloat(document.getElementById('revenue').value) || 0;
+            const foodPct = parseFloat(document.getElementById('foodCost').value) || 0;
+            const events = parseFloat(document.getElementById('events').value) || 0;
+
+            if (revenue === 0) return;
+
+            const foodCost = revenue * (foodPct / 100);
+            const grossProfit = revenue - foodCost;
+            const overhead = revenue * 0.30; 
+            const netProfit = grossProfit - overhead;
+
+            const leakWaste = foodCost * 0.12;
+            const leakLabor = revenue * 0.08;
+            const leakEquip = revenue * 0.04;
+            const totalLeak = leakWaste + leakLabor + leakEquip;
+
+            // Reveal Card
+            document.getElementById('resultsCard').classList.add('visible');
+
+            // Animate Numbers (1.5s duration)
+            animateValue('resRevenue', 0, revenue, 1500);
+            document.getElementById('resFoodPct').innerText = foodPct;
+            animateValue('resFoodCost', 0, foodCost, 1500);
+            animateValue('resGrossProfit', 0, grossProfit, 1500);
+            animateValue('resOverhead', 0, overhead, 1500);
+            animateValue('netProfit', 0, netProfit, 1500);
+
+            animateValue('leakWaste', 0, leakWaste, 1500);
+            animateValue('leakLabor', 0, leakLabor, 1500);
+            animateValue('leakEquip', 0, leakEquip, 1500);
+            animateValue('leakTotal', 0, totalLeak, 1500);
+
+            // Reveal Leak Section
+            document.getElementById('leakSection').style.display = 'block';
+            
+            // Smooth scroll to results on mobile
+            if (window.innerWidth <= 900) {
+                document.getElementById('resultsCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+    </script>
+</body>
+</html>
