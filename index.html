@@ -572,36 +572,54 @@
         const grossProfit = revenue - foodCost;
         const overhead = revenue * 0.30; 
         const netProfit = grossProfit - overhead;
+        const netMargin = (netProfit / revenue) * 100;
 
-        // DYNAMIC LEAK CALCULATION
-        // If their food cost is already optimal (30% or less), we assume they are efficient.
-        // If it's higher, we apply the heavy industry average leak rates.
         let wasteRate = foodPct > 30 ? 0.12 : 0.05;
         let laborRate = foodPct > 30 ? 0.08 : 0.04;
-        let equipRate = 0.04; // Equipment overlap is standard across the board
+        let equipRate = 0.04; 
 
         const leakWaste = foodCost * wasteRate;
         const leakLabor = revenue * laborRate;
         const leakEquip = revenue * equipRate;
         const totalLeak = leakWaste + leakLabor + leakEquip;
 
-        // Update Main Numbers
         document.getElementById('resRevenue').innerText = '$' + revenue.toLocaleString();
         document.getElementById('resFoodPct').innerText = foodPct;
         document.getElementById('resFoodCost').innerText = '-$' + foodCost.toLocaleString();
         document.getElementById('resGrossProfit').innerText = '$' + grossProfit.toLocaleString();
         document.getElementById('resOverhead').innerText = '-$' + overhead.toLocaleString();
-        document.getElementById('netProfit').innerText = '$' + netProfit.toLocaleString();
+        
+        const netProfitEl = document.getElementById('netProfit');
+        netProfitEl.innerText = (netProfit < 0 ? '-$' : '$') + Math.abs(netProfit).toLocaleString();
+        
+        const leakSection = document.getElementById('leakSection');
+        const leakTitle = document.querySelector('.leak-title');
+        const leakText = document.querySelector('.leak-section p');
+        const ctaButton = document.querySelector('.cta-button');
 
-        // Update Leak Numbers
+        if (netMargin < 0) {
+            // SCENARIO 1: Operating at a loss (Pain Avoidance)
+            netProfitEl.style.color = '#ff8a8a'; 
+            leakTitle.innerText = "⚠️ Critical Profit Leaks Detected";
+            leakTitle.style.color = "#ff8a8a";
+            leakText.innerText = "You are currently operating at a loss. You cannot fix this by just raising prices. You need to restructure how you cost every dish and eliminate these leaks immediately.";
+            ctaButton.innerText = "Get the OS and Stop the Bleeding - $149";
+        } else {
+            // SCENARIO 2: Profitable (Gain Seeking / Urgency)
+            netProfitEl.style.color = '#4ade80'; // Green for profit
+            leakTitle.innerText = "💰 Profitable, But Leaving Money on the Table";
+            leakTitle.style.color = "#B59B6E"; // Gold accent
+            leakText.innerText = "You are profitable, but hidden inefficiencies in prep waste, unbillable labor, and equipment overlap are capping your growth. Fixing these specific leaks can add an extra 10-15% directly to your bottom line without raising your prices by a single cent.";
+            ctaButton.innerText = "Get the OS and Compound Your Profits - $149";
+        }
+
         document.getElementById('leakWaste').innerText = '-$' + Math.round(leakWaste).toLocaleString();
         document.getElementById('leakLabor').innerText = '-$' + Math.round(leakLabor).toLocaleString();
         document.getElementById('leakEquip').innerText = '-$' + Math.round(leakEquip).toLocaleString();
         document.getElementById('leakTotal').innerText = '-$' + Math.round(totalLeak).toLocaleString();
 
-        // Reveal Sections
         document.getElementById('resultsCard').classList.add('visible');
-        document.getElementById('leakSection').style.display = 'block';
+        leakSection.style.display = 'block';
         
         if (window.innerWidth <= 900) {
             setTimeout(() => {
