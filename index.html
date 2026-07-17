@@ -543,29 +543,22 @@
         let obj = document.getElementById(id);
         let range = end - start;
         let startTime = performance.now();
-        let animationFrame;
 
         function animate(currentTime) {
             let elapsedTime = currentTime - startTime;
-            let progress = Math.min(elapsedTime / duration, 1); // Clamp between 0 and 1
-            
-            // Easing function for smooth deceleration
+            let progress = Math.min(elapsedTime / duration, 1);
             let easeOut = 1 - Math.pow(1 - progress, 3);
-            
             let currentValue = start + (range * easeOut);
             
-            // Format as currency
             obj.innerHTML = "$" + Math.round(currentValue).toLocaleString();
             
             if (progress < 1) {
-                animationFrame = requestAnimationFrame(animate);
+                requestAnimationFrame(animate);
             } else {
-                // Ensure final value is exact
                 obj.innerHTML = "$" + Math.round(end).toLocaleString();
             }
         }
-        
-        animationFrame = requestAnimationFrame(animate);
+        requestAnimationFrame(animate);
     }
 
     function calculateProfit() {
@@ -580,34 +573,36 @@
         const overhead = revenue * 0.30; 
         const netProfit = grossProfit - overhead;
 
-        const leakWaste = foodCost * 0.12;
-        const leakLabor = revenue * 0.08;
-        const leakEquip = revenue * 0.04;
+        // DYNAMIC LEAK CALCULATION
+        // If their food cost is already optimal (30% or less), we assume they are efficient.
+        // If it's higher, we apply the heavy industry average leak rates.
+        let wasteRate = foodPct > 30 ? 0.12 : 0.05;
+        let laborRate = foodPct > 30 ? 0.08 : 0.04;
+        let equipRate = 0.04; // Equipment overlap is standard across the board
+
+        const leakWaste = foodCost * wasteRate;
+        const leakLabor = revenue * laborRate;
+        const leakEquip = revenue * equipRate;
         const totalLeak = leakWaste + leakLabor + leakEquip;
 
-        // Reveal Card
-        document.getElementById('resultsCard').classList.add('visible');
-
-        // Animate Numbers (1.2s duration for snappier feel)
-        animateValue('resRevenue', 0, revenue, 1200);
+        // Update Main Numbers
+        document.getElementById('resRevenue').innerText = '$' + revenue.toLocaleString();
         document.getElementById('resFoodPct').innerText = foodPct;
-        animateValue('resFoodCost', 0, foodCost, 1200);
-        animateValue('resGrossProfit', 0, grossProfit, 1200);
-        animateValue('resOverhead', 0, overhead, 1200);
-        animateValue('netProfit', 0, netProfit, 1200);
+        document.getElementById('resFoodCost').innerText = '-$' + foodCost.toLocaleString();
+        document.getElementById('resGrossProfit').innerText = '$' + grossProfit.toLocaleString();
+        document.getElementById('resOverhead').innerText = '-$' + overhead.toLocaleString();
+        document.getElementById('netProfit').innerText = '$' + netProfit.toLocaleString();
 
-        // Animate Leak Values
-        setTimeout(() => {
-            animateValue('leakWaste', 0, leakWaste, 1000);
-            animateValue('leakLabor', 0, leakLabor, 1000);
-            animateValue('leakEquip', 0, leakEquip, 1000);
-            animateValue('leakTotal', 0, totalLeak, 1000);
-        }, 400);
+        // Update Leak Numbers
+        document.getElementById('leakWaste').innerText = '-$' + Math.round(leakWaste).toLocaleString();
+        document.getElementById('leakLabor').innerText = '-$' + Math.round(leakLabor).toLocaleString();
+        document.getElementById('leakEquip').innerText = '-$' + Math.round(leakEquip).toLocaleString();
+        document.getElementById('leakTotal').innerText = '-$' + Math.round(totalLeak).toLocaleString();
 
-        // Reveal Leak Section
+        // Reveal Sections
+        document.getElementById('resultsCard').classList.add('visible');
         document.getElementById('leakSection').style.display = 'block';
         
-        // Smooth scroll to results on mobile
         if (window.innerWidth <= 900) {
             setTimeout(() => {
                 document.getElementById('resultsCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
