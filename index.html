@@ -451,4 +451,190 @@
 
                 <button class="btn-calculate" onclick="calculateProfit()">
                     Calculate Profit 
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </button>
+                <div class="privacy-note">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    Your data is private and never stored.
+                </div>
+            </div>
+
+            <!-- Results Card (SINGLE INSTANCE) -->
+            <div class="card results-card" id="resultsCard">
+                <h2 class="card-title">Your Estimated Monthly Profit</h2>
+                
+                <div class="big-profit">
+                    <div class="big-profit-label">Net Profit</div>
+                    <div class="big-profit-value" id="netProfit">$0</div>
+                </div>
+
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Average Monthly Revenue</span>
+                    <span class="breakdown-value" id="resRevenue">$0</span>
+                </div>
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Food Cost (<span id="resFoodPct">0</span>%)</span>
+                    <span class="breakdown-value negative" id="resFoodCost">-$0</span>
+                </div>
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Gross Profit</span>
+                    <span class="breakdown-value" id="resGrossProfit">$0</span>
+                </div>
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Estimated Labor & Overhead (30%)</span>
+                    <span class="breakdown-value negative" id="resOverhead">-$0</span>
+                </div>
+
+                <!-- Hidden Leak Section -->
+                <div class="leak-section" id="leakSection">
+                    <div class="leak-title">⚠️ Hidden Profit Leaks Detected</div>
+                    <div class="leak-item"><span>Yield & Prep Waste</span><span id="leakWaste">-$0</span></div>
+                    <div class="leak-item"><span>Unbillable Labor</span><span id="leakLabor">-$0</span></div>
+                    <div class="leak-item"><span>Equipment/Rental Overlap</span><span id="leakEquip">-$0</span></div>
+                    <div class="leak-total">Total Monthly Leak: <span id="leakTotal" style="color: #ff8a8a;">-$0</span></div>
+                    
+                    <p style="font-size: 0.95rem; margin-top: 1.5rem; color: rgba(255,255,255,0.7); line-height: 1.6; text-align: center;">You cannot fix this by just raising prices. You need to restructure how you cost every dish.</p>
+                    
+                    <a href="https://payhip.com/b/nUgWF" class="cta-button">Get the OS and Stop the Leak - $149</a>
+                </div>
+
+                <div class="tip-box">
+                    <div class="tip-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2v1M12 7v5M12 13h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"></path></svg>
+                    </div>
+                    <div class="tip-text">Aim for a food cost between 28-35% for optimal profitability. Hidden leaks often push this much higher.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-section">
+            <div class="features-title">Build a More Profitable Catering Business</div>
+            <div class="features-grid">
+                <div>
+                    <div class="feature-icon">
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+                    </div>
+                    <h3 class="feature-title">Know Your Numbers</h3>
+                    <p class="feature-desc">Understanding your margins helps you price with confidence and grow sustainably.</p>
+                </div>
+                <div>
+                    <div class="feature-icon">
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z"></path><line x1="6" y1="17" x2="18" y2="17"></line></svg>
+                    </div>
+                    <h3 class="feature-title">Control Your Costs</h3>
+                    <p class="feature-desc">Monitor food costs and operational expenses to maximize profit on every event.</p>
+                </div>
+                <div>
+                    <div class="feature-icon">
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
+                    </div>
+                    <h3 class="feature-title">Scale With Clarity</h3>
+                    <p class="feature-desc">Use data-driven insights to make smarter decisions and scale your business.</p>
+                </div>
+            </div>
+            
+            <div class="footer-branding">
+                <div class="footer-branding-text">Built for caterers. Designed for growth.</div>
+                <div class="brand-header" style="margin-top: 1.5rem;">
+                    <img src="arken.templates.logo_op1_blk.png" alt="Arken Templates" style="width: 32px; height: auto;">
+                    <div class="brand-name" style="font-size: 1.2rem;">Arken Templates</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function animateValue(id, start, end, duration) {
+            let obj = document.getElementById(id);
+            let range = end - start;
+            let startTime = performance.now();
+
+            function animate(currentTime) {
+                let elapsedTime = currentTime - startTime;
+                let progress = Math.min(elapsedTime / duration, 1);
+                let easeOut = 1 - Math.pow(1 - progress, 3);
+                let currentValue = start + (range * easeOut);
+                
+                obj.innerHTML = "$" + Math.round(currentValue).toLocaleString();
+                
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    obj.innerHTML = "$" + Math.round(end).toLocaleString();
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        function calculateProfit() {
+            const revenue = parseFloat(document.getElementById('revenue').value) || 0;
+            const foodPct = parseFloat(document.getElementById('foodCost').value) || 0;
+            const events = parseFloat(document.getElementById('events').value) || 0;
+
+            if (revenue === 0) return;
+
+            const foodCost = revenue * (foodPct / 100);
+            const grossProfit = revenue - foodCost;
+            const overhead = revenue * 0.30; 
+            const netProfit = grossProfit - overhead;
+            const netMargin = (netProfit / revenue) * 100;
+
+            let wasteRate = foodPct > 30 ? 0.12 : 0.05;
+            let laborRate = foodPct > 30 ? 0.08 : 0.04;
+            let equipRate = 0.04; 
+
+            const leakWaste = foodCost * wasteRate;
+            const leakLabor = revenue * laborRate;
+            const leakEquip = revenue * equipRate;
+            const totalLeak = leakWaste + leakLabor + leakEquip;
+
+            document.getElementById('resRevenue').innerText = '$' + revenue.toLocaleString();
+            document.getElementById('resFoodPct').innerText = foodPct;
+            document.getElementById('resFoodCost').innerText = '-$' + foodCost.toLocaleString();
+            document.getElementById('resGrossProfit').innerText = '$' + grossProfit.toLocaleString();
+            document.getElementById('resOverhead').innerText = '-$' + overhead.toLocaleString();
+            
+            const netProfitEl = document.getElementById('netProfit');
+            netProfitEl.innerText = (netProfit < 0 ? '-$' : '$') + Math.abs(netProfit).toLocaleString();
+            
+            const leakSection = document.getElementById('leakSection');
+            const leakTitle = document.querySelector('.leak-title');
+            const leakText = document.querySelector('.leak-section p');
+            const ctaButton = document.querySelector('.cta-button');
+
+            if (netMargin < 0) {
+                netProfitEl.style.color = '#ff8a8a'; 
+                leakTitle.innerText = "⚠️ Critical Profit Leaks Detected";
+                leakTitle.style.color = "#ff8a8a";
+                leakText.innerText = "You are currently operating at a loss. You cannot fix this by just raising prices. You need to restructure how you cost every dish and eliminate these leaks immediately.";
+                ctaButton.innerText = "Get the OS and Stop the Bleeding - $149";
+            } else {
+                netProfitEl.style.color = '#4ade80'; 
+                leakTitle.innerText = "💰 Profitable, But Leaving Money on the Table";
+                leakTitle.style.color = "#B59B6E"; 
+                leakText.innerText = "You are profitable, but hidden inefficiencies in prep waste, unbillable labor, and equipment overlap are capping your growth. Fixing these specific leaks can add an extra 10-15% directly to your bottom line without raising your prices by a single cent.";
+                ctaButton.innerText = "Get the OS and Compound Your Profits - $149";
+            }
+
+            document.getElementById('leakWaste').innerText = '-$' + Math.round(leakWaste).toLocaleString();
+            document.getElementById('leakLabor').innerText = '-$' + Math.round(leakLabor).toLocaleString();
+            document.getElementById('leakEquip').innerText = '-$' + Math.round(leakEquip).toLocaleString();
+            document.getElementById('leakTotal').innerText = '-$' + Math.round(totalLeak).toLocaleString();
+
+            // REVEAL LOGIC: Switch from display:none to block, then animate
+            const resultsCard = document.getElementById('resultsCard');
+            resultsCard.style.display = 'block';
+            
+            // Force browser reflow to ensure the CSS transition catches the change
+            void resultsCard.offsetWidth; 
+            resultsCard.classList.add('visible');
+            
+            leakSection.style.display = 'block';
+            
+            setTimeout(() => {
+                resultsCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+        }
+    </script>
+</body>
+</html>
